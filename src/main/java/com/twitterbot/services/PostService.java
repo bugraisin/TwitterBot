@@ -2,14 +2,15 @@ package com.twitterbot.services;
 
 import com.twitterbot.entities.Post;
 import com.twitterbot.entities.User;
-import com.twitterbot.repository.PostRepository;
+import com.twitterbot.repositories.PostRepository;
 import com.twitterbot.requests.PostCreateRequest;
 import com.twitterbot.requests.PostUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.twitterbot.responses.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -22,10 +23,12 @@ public class PostService {
         this.userService = userService;
     }
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> list;
         if(userId.isPresent())
-            return postRepository.findByUserId(userId.get());
-        return postRepository.findAll();
+            list = postRepository.findByUserId(userId.get());
+        list = postRepository.findAll();
+        return list.stream().map(PostResponse::new).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {

@@ -3,13 +3,15 @@ package com.twitterbot.services;
 import com.twitterbot.entities.Comment;
 import com.twitterbot.entities.Post;
 import com.twitterbot.entities.User;
-import com.twitterbot.repository.CommentRepository;
+import com.twitterbot.repositories.CommentRepository;
 import com.twitterbot.requests.CommentCreateRequest;
 import com.twitterbot.requests.CommentUpdateRequest;
+import com.twitterbot.responses.CommentResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -24,10 +26,17 @@ public class CommentService {
         this.postService = postService;
     }
 
-    public List<Comment> getAllComments(Optional<Long> userId) {
-        if(userId.isPresent())
-            return commentRepository.findByUserId(userId.get());
-        return commentRepository.findAll();
+    public List<CommentResponse> getAllComments(Optional<Long> userId, Optional<Long> postId) {
+        List<Comment> comments;
+        if(userId.isPresent() && postId.isPresent()) {
+            comments = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+        }else if(userId.isPresent()) {
+            comments = commentRepository.findByUserId(userId.get());
+        }else if(postId.isPresent()) {
+            comments = commentRepository.findByPostId(postId.get());
+        }else
+            comments = commentRepository.findAll();
+        return comments.stream().map(comment -> new CommentResponse(comment)).collect(Collectors.toList());
     }
 
     public Comment getOneComment(Long commentId) {

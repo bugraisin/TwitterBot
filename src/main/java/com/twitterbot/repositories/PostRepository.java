@@ -1,4 +1,4 @@
-package com.twitterbot.repository;
+package com.twitterbot.repositories;
 
 import com.twitterbot.entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;

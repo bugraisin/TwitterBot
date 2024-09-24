@@ -1,7 +1,7 @@
 package com.twitterbot.services;
 
 import com.twitterbot.entities.User;
-import com.twitterbot.repository.UserRepository;
+import com.twitterbot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,12 +1,10 @@
 package com.twitterbot.controllers;
 
 import com.twitterbot.entities.Post;
-import com.twitterbot.entities.User;
 import com.twitterbot.requests.PostCreateRequest;
 import com.twitterbot.requests.PostUpdateRequest;
+import com.twitterbot.responses.PostResponse;
 import com.twitterbot.services.PostService;
-import com.twitterbot.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId) {
+    public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userId) {
         return postService.getAllPosts(userId);
     }
 

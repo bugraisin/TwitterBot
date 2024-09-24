@@ -3,6 +3,7 @@ package com.twitterbot.controllers;
 import com.twitterbot.entities.Comment;
 import com.twitterbot.requests.CommentCreateRequest;
 import com.twitterbot.requests.CommentUpdateRequest;
+import com.twitterbot.responses.CommentResponse;
 import com.twitterbot.services.CommentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<Comment> getAllComments(@RequestParam Optional<Long> userId) {
-        return commentService.getAllComments(userId);
+    public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId) {
+        return commentService.getAllComments(userId, postId);
     }
 
     @GetMapping ("/{commentId}")
